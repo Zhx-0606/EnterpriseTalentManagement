@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dao.EnterprisetalentMapper">
+    <select id="SelectEnterprisetalent" resultType="Enterprisetalent" parameterType="Integer">
+        select *,(select name from department where id=departmentId) as departmentName from enterprisetalent
+       <!-- <trim prefix="where" prefixOverrides="and | or">-->
+            <if test="departmentId!=null">
+              where departmentId=#{departmentId}
+            </if>
+            <if test="id!=null">
+                where id=#{id}
+            </if>
+       <!-- </trim>-->
+        order by id desc
+    </select>
+    <update id="UpdateEnterprisetalent" parameterType="Enterprisetalent">
+        update enterprisetalent
+        <set>
+        <if test="name!=null"> name=#{name},</if>
+        <if test="name!=null"> workingLife=#{workingLife},</if>
+        <if test="name!=null"> workExperience=#{workExperience},</if>
+        <if test="name!=null"> personalProfile=#{personalProfile},</if>
+        <if test="name!=null"> departmentId=#{departmentId},</if>
+        <if test="name!=null"> graduateSchool=#{graduateSchool},</if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="DeleteEnterprisetalent" parameterType="Integer">
+        delete from enterprisetalent where id=#{id}
+    </delete>
+    <insert id="InsertEnterprisetalent" parameterType="Enterprisetalent">
+        insert into enterprisetalent(name,workingLife,workExperience,personalProfile,departmentId,graduateSchool)
+        values(#{name},#{workingLife},#{workExperience},#{personalProfile},#{departmentId},#{graduateSchool})
+    </insert>
+</mapper>
